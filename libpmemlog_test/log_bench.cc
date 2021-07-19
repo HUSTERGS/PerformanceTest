@@ -14,6 +14,13 @@
 /* size of the pmemlog pool -- 1 GB */
 #define POOL_SIZE ((size_t)(1 << 30))
 
+
+const uint64_t key_begin_size = 8;
+const uint64_t key_end_size = 256;
+const uint64_t value_begin_size = 8;
+const uint64_t value_end_size = 256;
+const uint64_t nums = 1024 * 1024;
+const uint64_t thread_end = 32;
 /*
  * printit -- log processing callback for use with pmemlog_walk()
  */
@@ -91,15 +98,21 @@ static void BM_SingleThread(benchmark::State &state)
         perror(path);
         exit(1);
     }
-
+    auto key_size = state.range(0);
+    auto value_size = state.range(1);
+    auto nums = state.range(2);
     for (auto _ : state)
     {
         state.PauseTiming();
         pmemlog_rewind(plp);
         state.ResumeTiming();
-        single_thread_append(state, state.range(0), state.range(0), 500, plp);
+        
+        single_thread_append(state, key_size, value_size, nums, plp);
     }
+
+    state.SetBytesProcessed((key_size + value_size) * nums * state.iterations() * state.threads);
     pmemlog_close(plp);
+
 }
 
 static void BM_MultiThread(benchmark::State &state)
@@ -124,9 +137,12 @@ static void BM_MultiThread(benchmark::State &state)
         pmemlog_rewind(plp);
     }
 
+    auto key_size = state.range(0);
+    auto value_size = state.range(1);
+    auto nums = state.range(2);
     for (auto _ : state)
     {
-        single_thread_append(state, 64, 64, 1024 / state.threads, plp);
+        single_thread_append(state, key_size, value_size, nums / state.threads, plp);
     }
     //
     if (state.thread_index == 0)
@@ -134,17 +150,33 @@ static void BM_MultiThread(benchmark::State &state)
         // std::cout << "current offset: " << pmemlog_tell(plp) << "current threads: " << state.threads << std::endl;
         pmemlog_close(plp);
     }
+    state.SetBytesProcessed((key_size + value_size) * nums);
 }
 
 // Register the function as a benchmark
 BENCHMARK(BM_SingleThread)
-    ->Iterations(100)
-    ->RangeMultiplier(2)
-    ->Range(8, 2 << 10);
-
+    ->Iterations(1)
+    ->UseRealTime()
+    ->ArgsProduct({
+        // key_size, from 8 bytes to 256 bytes
+        benchmark::CreateRange(key_begin_size, key_end_size, 2),
+        // value_size, from 8 bytes to 256 bytes
+        benchmark::CreateRange(value_begin_size, value_end_size, 2),
+        // nums always 256 bytes
+        benchmark::CreateRange(nums, nums, 1)
+    })
+    ;
 BENCHMARK(BM_MultiThread)
     ->Iterations(1)
-    ->ThreadRange(1, 16)
+    ->ArgsProduct({
+        // key_size, from 8 bytes to 256 bytes
+        benchmark::CreateRange(key_begin_size, key_end_size, 2),
+        // value_size, from 8 bytes to 256 bytes
+        benchmark::CreateRange(value_begin_size, value_end_size, 2),
+        // nums always 256 bytes
+        benchmark::CreateRange(nums, nums, 1)
+    })
+    ->ThreadRange(1, thread_end)
     ->UseRealTime()
     // ->Unit(benchmark::kMillisecond)
     ;

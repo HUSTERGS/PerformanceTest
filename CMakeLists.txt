@@ -18,6 +18,8 @@ add_subdirectory(libpmemlog_test)
 
 add_subdirectory(viper_test)
 
+add_subdirectory(benchmark_test)
+
 ## script to print all variables
 # get_cmake_property(_variableNames VARIABLES)
 # list (SORT _variableNames)
