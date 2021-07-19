@@ -1,12 +1,12 @@
 [submodule "benchmark"]
 	path = benchmark
-	url = https://github.com/google/benchmark
+	url = git@github.com:google/benchmark.git
 [submodule "viper_test/viper"]
 	path = viper_test/viper
-	url = https://github.com/hpides/viper
+	url = git@github.com/hpides/viper.git
 [submodule "viper_test/concurrentqueue"]
 	path = viper_test/concurrentqueue
-	url = https://github.com/cameron314/concurrentqueue
+	url = git@github.com/cameron314/concurrentqueue.git
 [submodule "gtest"]
 	path = gtest
-	url = https://github.com/google/googletest
+	url = git@github.com/google/googletest.git
