@@ -68,7 +68,7 @@ static void BM_MultiThread(benchmark::State &state)
 
     auto key_size = state.range(0);
     auto value_size = state.range(1);
-    auto nums = state.range(2);
+    auto nums = state.range(2) / state.threads;
 
     for (auto _ : state)
     {
@@ -91,7 +91,7 @@ static void BM_MultiThread(benchmark::State &state)
     }
     
     // data processed by each thread
-    state.SetBytesProcessed((key_size + value_size) * nums / state.threads);
+    state.SetBytesProcessed((key_size + value_size) * nums);
 }
 
 // BENCHMARK(BM_SingleThread)
