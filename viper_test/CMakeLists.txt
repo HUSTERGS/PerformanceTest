@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out )
 
 
-# add_subdirectory(concurrentqueue)
+add_subdirectory(concurrentqueue)
+include_directories(${concurrentqueue_SOURCE_DIR})
 
 add_subdirectory(viper)
 include_directories(${viper_SOURCE_DIR}/include)

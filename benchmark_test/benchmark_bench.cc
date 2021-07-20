@@ -19,13 +19,13 @@ static void BM_Test(benchmark::State &state) {
         // t();
         std::lock_guard<std::mutex> guard(m);
         // usleep(1);
-        // std::this_thread::sleep_for(std::chrono::milliseconds(state.thread_index + 1));
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(state.thread_index + 1));
+        // std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     // std::cout << "iterations: " << state.total_iterations_ << std::endl;
     // assert(state.threads != state.iterations());
     // state.SetBytesProcessed((state.thread_index + 1) * state.threads);
-    state.SetBytesProcessed(1 * state.threads);
+    state.SetBytesProcessed(100 / state.threads);
     // state.counters["time_sleeped"] = benchmark::Counter(1 * state.threads, benchmark::Counter::kIsRate);
 }
 

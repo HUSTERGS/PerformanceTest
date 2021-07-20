@@ -1,8 +1,10 @@
 #include <iostream>
 #include "viper/viper.hpp"
 #include <gtest/gtest.h>
+#include <mutex>
 
 
+std::mutex m;
 TEST(a, b) {
 const size_t initial_size = 1 << 29;  // 1 GiB
   auto viper_db = viper::Viper<std::string, std::string>::create("/pmem-fs/viper", initial_size);
@@ -26,8 +28,25 @@ const size_t initial_size = 1 << 29;  // 1 GiB
   }
 }
 
+void t(int i) {
+    std::lock_guard<std::mutex> guard(m);
+    // usleep(1);
+    std::this_thread::sleep_for(std::chrono::seconds(i));
+}
+
 int main(int argc, char **argv)
 {
-	testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+	auto start = std::chrono::high_resolution_clock::now();
+  std::thread t1(t, 1);
+  std::thread t2(t, 2);
+  std::thread t3(t, 3);
+  std::thread t4(t, 4);
+  t1.join();
+  t2.join();
+  t3.join();
+  t4.join();
+  auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> diff = end-start;
+  std::cout <<  "time: " << diff.count() << std::endl;
+  return 0;
 }

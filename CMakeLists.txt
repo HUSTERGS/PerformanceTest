@@ -13,6 +13,10 @@ include_directories(${gtest_SOURCE_DIR}/include/ ${gtest_SOURCE_DIR})
 add_subdirectory(benchmark)
 include_directories(${benchmark_SOURCE_DIR}/include/)
 
+
+# custom utils
+include_directories(utils)
+
 # add sub test project
 add_subdirectory(libpmemlog_test)
 
