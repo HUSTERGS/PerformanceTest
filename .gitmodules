@@ -10,3 +10,6 @@
 [submodule "gtest"]
 	path = gtest
 	url = git@github.com:google/googletest.git
+[submodule "CLHT_CLHT"]
+	path = CLHT_CLHT
+	url = https://github.com/LPD-EPFL/CLHT
