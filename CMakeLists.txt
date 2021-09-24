@@ -20,9 +20,11 @@ include_directories(utils)
 # add sub test project
 add_subdirectory(libpmemlog_test)
 
-add_subdirectory(viper_test)
+# add_subdirectory(viper_test)
 
 add_subdirectory(benchmark_test)
+
+add_subdirectory(P-CLHT)
 
 ## script to print all variables
 # get_cmake_property(_variableNames VARIABLES)
