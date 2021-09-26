@@ -3,13 +3,16 @@
 	url = git@github.com:google/benchmark.git
 [submodule "viper/viper"]
 	path = viper/viper
-	url = git@github.com:HUSTERGS/viper.git
+	url = git@github.com:google/googletest.git
 [submodule "viper/concurrentqueue"]
 	path = viper/concurrentqueue
-	url = git@github.com:cameron314/concurrentqueue.git
+	url = git@github.com:google/googletest.git
 [submodule "external/gtest"]
 	path = external/gtest
 	url = git@github.com:google/googletest.git
 [submodule "cceh/CCEH"]
 	path = cceh/CCEH
 	url = git@github.com:DICL/CCEH.git
+[submodule "CLHT/CLHT"]
+	path = CLHT/CLHT
+	url = git@github.com:LPD-EPFL/CLHT.git
