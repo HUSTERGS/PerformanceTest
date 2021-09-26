@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 
 project(Performance_Test)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 # set all binary to build/bin/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 
@@ -25,6 +25,13 @@ add_subdirectory(libpmemlog_test)
 add_subdirectory(benchmark_test)
 
 add_subdirectory(P-CLHT)
+
+add_subdirectory(CLHT_test)
+
+add_subdirectory(oneTbb_test)
+
+add_subdirectory(cceh_test)
+
 
 ## script to print all variables
 # get_cmake_property(_variableNames VARIABLES)

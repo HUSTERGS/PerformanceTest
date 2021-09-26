@@ -6,7 +6,6 @@ extern "C"
 #endif
 
 // C header here
-#include <immintrin.h>
 #include "clht.h"
 
 #ifdef __cplusplus
@@ -18,26 +17,22 @@ extern "C"
 #include <gtest/gtest.h>
 
 
+#define TEST_NUM 10000
+
 TEST(a, b) {
     // creat a new CLHT instance
     clht_t *hash_table = clht_create(128);
     clht_gc_thread_init(hash_table, 1);
-    clht_gc_thread_init(hash_table, 1);
-    // for (uint64_t a = 0; a < 2; a++) {
-    //   clht_put(hash_table, a, 1);
-    // }
-    // for (uint64_t a = 0; a < 2; a++) {
-    //   EXPECT_EQ(clht_get(hash_table->ht, a), 1);
-    // }
-    std::cout << clht_put(hash_table, 1, 1) << std::endl;
-    std::cout << clht_put(hash_table, 1, 2) << std::endl;
-    std::cout << clht_get(hash_table->ht, 1) << std::endl;
-
+    for (uint64_t a = 0; a < TEST_NUM; a++) {
+        clht_put(hash_table, a, 1);
+    }
+    for (uint64_t a = 0; a < TEST_NUM; a++) {
+        EXPECT_EQ(clht_get(hash_table->ht, a), 1);
+    }
 }
 
 
-int main(int argc, char **argv)
-{
-  ::testing::InitGoogleTest();
-  return RUN_ALL_TESTS();
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest();
+    return RUN_ALL_TESTS();
 }
